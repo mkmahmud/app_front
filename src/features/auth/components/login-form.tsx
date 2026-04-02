@@ -1,18 +1,20 @@
 'use client'
 
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { BookDashed, Eye, EyeOff, Loader2 } from 'lucide-react'
-import { useAuth } from '@/features/auth/hooks/useAuth'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Alert } from '@/components/ui/alert'
 import { ROUTES } from '@/config/constants'
+import { useAuth } from '@/features/auth/hooks/useAuth'
+import { cn } from '@/lib/utils'
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email address'),
@@ -51,148 +53,191 @@ export function LoginForm() {
   }
 
   return (
-    <div className="w-full max-w-sm space-y-6">
-
-      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-lg bg-primary">
-        <Link href={ROUTES.HOME} className="flex items-center gap-2">
-          <BookDashed className="h-6 w-6 text-primary-foreground" />
-        </Link>
+    <section className="   ">
+      {/* Decorative Background Shapes */}
+      <div className=" absolute left-0 top-0 -z-10 hidden md:block ">
+        <img src="/assets/images/shapef1.svg" alt="" className=" " />
+        <img src="/assets/images/dark_shape.svg" alt="" className="hidden dark:block" />
       </div>
-      {/* Header */}
-      <div className="space-y-2 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
-        <p className="text-sm text-muted-foreground">
-          Enter your credentials to sign in
-        </p>
+      <div className="  absolute right-0 top-0 -z-10 hidden md:block ">
+        <img src="/assets/images/shape2.svg" alt="" className="dark:hidden " />
+        <img
+          src="/assets/images/dark_shape1.svg"
+          alt=""
+          className="hidden opacity-50 dark:block"
+        />
+      </div>
+      <div className="  absolute bottom-0 right-[20%] -z-10 hidden md:block">
+        <img src="/assets/images/shape3.svg" alt="" className="dark:hidden" />
+        <img
+          src="/assets/images/dark_shape2.svg"
+          alt=""
+          className="hidden opacity-50 dark:block"
+        />
       </div>
 
-      {/* Session expired message */}
-      {searchParams.get('reason') === 'session_expired' && (
-        <Alert  >
-          Your session expired. Please sign in again.
-        </Alert>
-      )}
+      <div className="  bg  w-full  ">
+        <div className="container mx-auto md:px-4">
+          <div className="flex flex-wrap items-center">
+            {/* Left Side: Illustration (col-xl-8 col-lg-8) */}
+            <div className=" px-4 lg:w-2/3 xl:w-2/3">
+              <div className=" ">
+                <div className=" ">
+                  <img
+                    src="/assets/images/login.png"
+                    alt="Login Illustration"
+                    className="mx-auto h-auto object-contain md:max-w-[60%]"
+                  />
+                </div>
+              </div>
+            </div>
 
-      {/* Server error */}
-      {serverError && (
-        <Alert variant="destructive">{serverError}</Alert>
-      )}
+            {/* Right Side: Form Content (col-xl-4 col-lg-4) */}
+            <div className="w-full text-center md:px-4 lg:w-1/3 xl:w-1/3">
+              <div className=" rounded-[6px] bg-white p-8 shadow-sm md:p-10  ">
+                <div className=" mb-[28px] ">
+                  <img src="/assets/images/logo.svg" alt="Logo" className="mx-auto " />
+                </div>
 
-      {/* Form */}
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
-        {/* Email */}
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="you@example.com"
-            autoComplete="email"
-            autoFocus
-            aria-invalid={!!errors.email}
-            aria-describedby={errors.email ? 'email-error' : undefined}
-            {...register('email')}
-          />
-          {errors.email && (
-            <p id="email-error" className="text-xs text-destructive" role="alert">
-              {errors.email.message}
-            </p>
-          )}
-        </div>
+                <p className="_social_login_content_para mb-[8px] text-[var(--color)]">
+                  Welcome back
+                </p>
+                <h4 className="_social_login_content_title mb-[50px] text-2xl font-bold text-[var(--color6)]">
+                  Login to your account
+                </h4>
 
-        {/* Password */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="password">Password</Label>
-            <Link
-              href={ROUTES.AUTH.FORGOT_PASSWORD}
-              className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline transition-colors"
-            >
-              Forgot password?
-            </Link>
+                {serverError && (
+                  <Alert variant="destructive" className="mb-4">
+                    {serverError}
+                  </Alert>
+                )}
+
+                <Button type="button" variant={'secondary'} className="mb-10 w-full">
+                  <img
+                    src="/assets/images/google.svg"
+                    alt="Google"
+                    className="  h-5 w-5"
+                  />
+                  <span className="text-sm font-medium  ">Or sign-in with google</span>
+                </Button>
+
+                <div className={cn('relative flex items-center py-5')}>
+                  <div className="flex-grow border-t border-app-3"></div>
+
+                  <span className="mx-4 flex-shrink text-sm font-medium uppercase text-brand-gray">
+                    Or
+                  </span>
+
+                  <div className="flex-grow border-t border-app-3"></div>
+                </div>
+
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="_social_login_form space-y-4"
+                >
+                  <div className="_social_login_form_input mb-[14px]">
+                    <Label className=" mb-[8px] block text-left font-medium text-color-4 ">
+                      Email
+                    </Label>
+                    <Input
+                      {...register('email')}
+                      type="email"
+                      placeholder="Enter your email"
+                      className="  h-12 w-full  "
+                    />
+                    {errors.email && (
+                      <p className="text-destructive mt-1 text-xs">
+                        {errors.email.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="_social_login_form_input mb-[14px]">
+                    <Label className="mb-[8px] block text-left font-medium text-color-4 ">
+                      Password
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        {...register('password')}
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Enter password"
+                        className="  h-12 w-full  "
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color)]"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                    {errors.password && (
+                      <p className="text-destructive mt-1 text-xs">
+                        {errors.password.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="form-check _social_login_form_check flex items-center gap-2">
+                      <input
+                        id="rememberMe"
+                        type="checkbox"
+                        {...register('rememberMe')}
+                        className="relative h-4 w-4 cursor-pointer appearance-none rounded-full border border-[#E8E8E8] transition-all checked:border-transparent checked:bg-primary"
+                      />
+                      <Label
+                        htmlFor="rememberMe"
+                        className="  cursor-pointer text-sm  font-normal"
+                      >
+                        Remember me
+                      </Label>
+                    </div>
+                    <div className="_social_login_form_left">
+                      <Link
+                        href={ROUTES.AUTH.FORGOT_PASSWORD}
+                        className="  text-sm text-[var(--color5)] hover:underline"
+                      >
+                        Forgot password?
+                      </Link>
+                    </div>
+                  </div>
+
+                  <div className="  !mt-10  ">
+                    <Button
+                      type="submit"
+                      className=" h-12 w-full text-lg font-medium  "
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <Loader2 className="mr-2 animate-spin" />
+                      ) : (
+                        'Login now'
+                      )}
+                    </Button>
+                  </div>
+                </form>
+
+                <div className=" mt-14 text-center">
+                  <p className="   text-sm text-[var(--color)]">
+                    Dont have an account?{' '}
+                    <Link
+                      href={ROUTES.AUTH.REGISTER}
+                      className="font-semibold text-[var(--color5)] hover:underline"
+                    >
+                      Create New Account
+                    </Link>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="relative">
-            <Input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="••••••••"
-              autoComplete="current-password"
-              aria-invalid={!!errors.password}
-              aria-describedby={errors.password ? 'password-error' : undefined}
-              className="pr-10"
-              {...register('password')}
-            />
-            <button
-              type="button"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-              onClick={() => setShowPassword(prev => !prev)}
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-            >
-              {showPassword ? (
-                <EyeOff className="h-4 w-4" />
-              ) : (
-                <Eye className="h-4 w-4" />
-              )}
-            </button>
-          </div>
-          {errors.password && (
-            <p id="password-error" className="text-xs text-destructive" role="alert">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
-
-        {/* Remember me */}
-        <div className="flex items-center gap-2">
-          <input
-            id="rememberMe"
-            type="checkbox"
-            className="h-4 w-4 rounded border-input accent-primary"
-            {...register('rememberMe')}
-          />
-          <Label htmlFor="rememberMe" className="font-normal text-sm cursor-pointer">
-            Remember me for 7 days
-          </Label>
-        </div>
-
-        {/* Submit */}
-        <Button
-          type="submit"
-          className="w-full"
-          disabled={isSubmitting}
-          aria-busy={isSubmitting}
-        >
-          {isSubmitting ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Signing in...
-            </>
-          ) : (
-            'Sign in'
-          )}
-        </Button>
-      </form>
-
-      {/* Divider */}
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-border" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">Or</span>
         </div>
       </div>
-
-      {/* Register link */}
-      <p className="text-center text-sm text-muted-foreground">
-        Don&apos;t have an account?{' '}
-        <Link
-          href={ROUTES.AUTH.REGISTER}
-          className="font-medium text-foreground underline-offset-4 hover:underline transition-colors"
-        >
-          Create account
-        </Link>
-      </p>
-    </div>
+    </section>
   )
 }

@@ -4,69 +4,80 @@
 
 @layer base {
   :root {
-    /* Colors */
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    /* Background & Foreground - Mapped from --bg1 and --color1 */
+    --background: 210 20% 95%; /* #F0F2F5 */
+    --foreground: 222 15% 14%; /* #1A202C */
+
+    /* Card & Popover - Mapped from --bg2 */
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 222 15% 14%;
+
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 220.9 39.3% 11%;
+    --popover-foreground: 222 15% 14%;
+
+    /* Primary - Mapped from --color5 (#1890FF) */
+    --primary: 209 100% 55%;
     --primary-foreground: 210 20% 98%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
+
+    /* Secondary - Mapped from --bg3 (#F5F5F5) */
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 222 15% 14%;
+
+    /* Muted - Mapped from --color7 (#666666) */
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;
+
+    /* Accent - Mapped from --color9 (#e8f4ff) */
+    --accent: 208 100% 96%;
+    --accent-foreground: 209 100% 55%;
+
+    /* Success - Mapped from --color8 (#0ACF83) */
+    --success: 157 91% 43%;
+    --success-foreground: 210 20% 98%;
+
+    /* Destructive */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 20% 98%;
-    --success: 142.1 76.2% 36.3%;
-    --success-foreground: 355.7 100% 97.3%;
-    --warning: 32.1 94.6% 43.7%;
-    --warning-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 224 71.4% 4.1%;
+
+    /* Border & Input - Mapped from --bcolor2 (#E8E8E8) */
+    --border: 0 0% 91%;
+    --input: 0 0% 91%;
+    --ring: 209 100% 55%;
 
     /* Spacing */
     --radius: 0.5rem;
 
-    /* Typography */
-    --font-sans: 'Geist', 'Inter', system-ui, sans-serif;
+    /* Typography - Updated to include Poppins */
+    --font-sans: 'Poppins', 'Inter', system-ui, sans-serif;
     --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
-
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
+    /* Dark mode adjustments using your darker brand colors */
+    --background: 216 48% 13%; /* #112032 (--bg5) */
     --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
+
+    --card: 217 30% 20%; /* #232E42 (--bg6) */
     --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
+
+    --popover: 216 48% 13%;
     --popover-foreground: 210 20% 98%;
-    --primary: 210 20% 98%;
-    --primary-foreground: 220.9 39.3% 11%;
-    --secondary: 215 27.9% 16.9%;
+
+    --primary: 209 100% 55%;
+    --primary-foreground: 210 20% 98%;
+
+    --secondary: 217 30% 20%;
     --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 215 27.9% 16.9%;
+
+    --muted: 217 30% 25%;
+    --muted-foreground: 215 16% 70%;
+
+    --accent: 217 30% 20%;
     --accent-foreground: 210 20% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
-    --success: 142.1 70.6% 45.3%;
-    --success-foreground: 144.9 80.4% 10%;
-    --warning: 32.1 94.6% 43.7%;
-    --warning-foreground: 20.9 91.7% 14.7%;
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 216 12.2% 83.9%;
+
+    --border: 217 30% 25%;
+    --input: 217 30% 25%;
+    --ring: 209 100% 55%;
   }
 
   * {
@@ -74,33 +85,83 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-background font-sans text-foreground antialiased;
+    /* From your original CSS */
+    margin: 0;
+    padding: 0;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
   }
 
-  /* Focus visible styles */
-  :focus-visible {
-    @apply outline-2 outline-offset-2 outline-ring;
+  /* Headings mapping from your original CSS sizes */
+  h1 {
+    @apply text-[30px] font-bold;
+  }
+  h2 {
+    @apply text-[24px] font-bold;
+  }
+  h3 {
+    @apply text-[20px] font-semibold;
+  }
+  h4 {
+    @apply text-[17px] font-semibold;
   }
 
-  /* Scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+  p,
+  pre {
+    @apply m-0 text-base;
+    color: #767676; /* Your original paragraph color */
   }
-  ::-webkit-scrollbar-track {
-    @apply bg-muted;
+
+  a {
+    @apply no-underline transition-colors duration-300;
   }
-  ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30 rounded-full;
+
+  a:hover {
+    @apply text-primary no-underline;
   }
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/50;
+
+  button,
+  select {
+    @apply cursor-pointer transition-all duration-300;
   }
 }
 
 @layer utilities {
-  /* Shimmer effect for skeleton loading */
+  /* Helper classes from your original CSS prefixes */
+  ._text_center {
+    text-align: center;
+  }
+  ._text_right {
+    text-align: right;
+  }
+  ._text_left {
+    text-align: left;
+  }
+
+  /* Title Presets */
+  ._title1 {
+    @apply text-title-1;
+  }
+  ._title2 {
+    @apply text-title-2;
+  }
+  ._title3 {
+    @apply text-title-3;
+  }
+  ._title4 {
+    @apply text-title-4;
+  }
+  ._title5 {
+    @apply text-title-5;
+  }
+
+  /* Effects */
+  .glass {
+    @apply border border-border/50 bg-background/80 backdrop-blur-md;
+  }
+
   .shimmer {
     background: linear-gradient(
       90deg,
@@ -110,20 +171,5 @@
     );
     background-size: 200% 100%;
     animation: shimmer 2s linear infinite;
-  }
-
-  /* Glass effect */
-  .glass {
-    @apply backdrop-blur-md bg-background/80 border border-border/50;
-  }
-
-  /* Text balance */
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  /* Safe area padding */
-  .pb-safe {
-    padding-bottom: env(safe-area-inset-bottom);
   }
 }

@@ -10,7 +10,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      // Design tokens: 4px/8px spacing grid
+      // 4px/8px spacing grid from your request
       spacing: {
         '0.5': '2px',
         '1': '4px',
@@ -27,47 +27,87 @@ const config: Config = {
         '24': '96px',
       },
       colors: {
+        // Core Shadcn/UI mapping
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        background: '#F0F2F5',
+        foreground: '#232E42',
+
+        // Brand Colors from your CSS
+        brand: {
+          dark: '#1A202C', // --color1
+          navy: '#112032', // --bg5
+          muted: '#4A5568', // --color4
+          blue: '#1890FF', // --color5
+          green: '#0ACF83', // --color8
+          gray: '#767676', // from p tag color
+        },
+
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
+          DEFAULT: '#1890FF', // mapped to your primary blue
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+          DEFAULT: '#F0F2F5', // --bg1
+          foreground: '#1A202C',
         },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+
+        bcolor: {
+          1: '#F0F2F5',
+          2: '#E8E8E8',
+          3: '#F5F5F5',
         },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+        color: {
+          1: ' #1A202C',
+          2: ' #312000',
+          3: ' #C4C4C4',
+          4: ' #4A5568',
+          5: ' #1890FF',
+          6: ' #212121',
+          7: ' #666666',
+          8: '#0ACF83',
+          9: '#e8f4ff',
         },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+        // Mapping specific --colorX vars
+        app: {
+          1: '#1A202C',
+          2: '#312000',
+          3: '#C4C4C4',
+          4: '#4A5568',
+          5: '#1890FF',
+          6: '#212121',
+          7: '#666666',
+          8: '#0ACF83',
+          9: '#e8f4ff',
         },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
+        surface: {
+          1: '#F0F2F5', // --bg1
+          2: '#FFFFFF', // --bg2
+          3: '#F5F5F5', // --bg3
+          4: '#DFDFDF', // --bg4
         },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-        success: {
-          DEFAULT: 'hsl(var(--success))',
-          foreground: 'hsl(var(--success-foreground))',
-        },
-        warning: {
-          DEFAULT: 'hsl(var(--warning))',
-          foreground: 'hsl(var(--warning-foreground))',
-        },
+      },
+      fontSize: {
+        // Mapping your _titleX classes
+        'title-1': ['45px', { lineHeight: '56px', fontWeight: '700' }],
+        'title-2': ['36px', { lineHeight: '46px', fontWeight: '700' }],
+        'title-3': ['26px', { lineHeight: '34px', fontWeight: '500' }],
+        'title-4': ['16px', { lineHeight: '1.2', fontWeight: '500' }],
+        'title-5': ['20px', { lineHeight: '1.4', fontWeight: '500' }],
+        // Standard heading tags from CSS
+        h1: '30px',
+        h2: '24px',
+        h3: '20px',
+        h4: '17px',
+        base: '16px', // from p tag
+      },
+      boxShadow: {
+        // Mapping your --b-shadowX variables
+        'app-1': '7.5px 20px 7.5px 20px rgba(108, 126, 147, 0.15)',
+        'app-2': '7.43px 49.03px 7.5px 49.03px rgba(108, 126, 147, 0.1)',
+        'app-3': '7px 42px 7px 42px rgba(108, 126, 147, 0.15)',
+        'app-inner': '0px 2px 0px 2px rgba(108, 126, 147, 0.15)', // --b-shadow4
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -75,7 +115,7 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        sans: ['Poppins', 'var(--font-sans)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'monospace'],
       },
       keyframes: {
@@ -91,26 +131,11 @@ const config: Config = {
           '0%': { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
         },
-        'fade-in': {
-          from: { opacity: '0', transform: 'translateY(8px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
-        },
-        'slide-in': {
-          from: { transform: 'translateX(-100%)' },
-          to: { transform: 'translateX(0)' },
-        },
-        pulse: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.5' },
-        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         shimmer: 'shimmer 2s linear infinite',
-        'fade-in': 'fade-in 0.3s ease-out',
-        'slide-in': 'slide-in 0.3s ease-out',
-        pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
     },
   },

@@ -1,12 +1,15 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
-import { ThemeProvider } from '@/components/shared/theme-provider'
-import { QueryProvider } from '@/components/shared/query-provider'
-import { ReduxProvider } from '@/components/shared/redux-provider'
-import { Toaster } from '@/components/ui/toaster'
+import { Suspense } from 'react'
+
+import { Analytics } from '@/components/shared/analytics'
 import { ErrorBoundary } from '@/components/shared/error-boundary'
 import { NetworkStatus } from '@/components/shared/network-status'
-import { Analytics } from '@/components/shared/analytics'
+import { QueryProvider } from '@/components/shared/query-provider'
+import { ReduxProvider } from '@/components/shared/redux-provider'
+import { ThemeProvider } from '@/components/shared/theme-provider'
+import { Toaster } from '@/components/ui/toaster'
+
 import './globals.css'
 
 const inter = Inter({
@@ -59,28 +62,29 @@ export const viewport: Viewport = {
     { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
   ],
 }
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.variable}>
         <ErrorBoundary>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >
             <ReduxProvider>
               <QueryProvider>
-                {children}
+                {/* 2. Wrap children in Suspense */}
+                <Suspense fallback={null}>{children}</Suspense>
+
                 <Toaster />
                 <NetworkStatus />
-                <Analytics />
+
+                {/* 3. Also wrap Analytics if it's the one using searchParams */}
+                <Suspense fallback={null}>
+                  <Analytics />
+                </Suspense>
               </QueryProvider>
             </ReduxProvider>
           </ThemeProvider>
