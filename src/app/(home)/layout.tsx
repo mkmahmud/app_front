@@ -15,7 +15,10 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           {/* Middle Feed */}
-          <div className="mt-2 h-[calc(100vh-75px)] w-full overflow-auto px-0 md:px-4 lg:w-[50%] lg:px-6 xl:w-[50%] [&::-webkit-scrollbar]:hidden">
+          <div
+            id="home-feed-scroll-container"
+            className="mt-2 h-[calc(100vh-75px)] w-full overflow-auto px-0 md:px-4 lg:w-[50%] lg:px-6 xl:w-[50%] [&::-webkit-scrollbar]:hidden"
+          >
             <div className="pb-[10px] pt-[10px]">{children}</div>
           </div>
 

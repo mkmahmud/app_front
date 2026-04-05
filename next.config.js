@@ -17,7 +17,11 @@ const nextConfig = {
       { protocol: 'https', hostname: 'utfs.io' },
       { protocol: 'https', hostname: 'media.sproutsocial.com' },
       { protocol: 'https', hostname: 'icons.veryicon.com' },
-      { protocol: 'https', hostname: '**.ibb.co.com' },],
+      { protocol: 'https', hostname: '**.ibb.co.com' },
+      { protocol: 'https', hostname: '**.ibb.co' },
+      { protocol: 'https', hostname: 'i.pravatar.cc' },
+      { protocol: 'https', hostname: 'picsum.photos' },
+    ],
   },
   experimental: {
     // serverComponentsExternalPackages removed from here

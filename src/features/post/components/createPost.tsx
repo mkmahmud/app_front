@@ -1,5 +1,7 @@
 'use client'
 
+import type { InfiniteData } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { ImageDown, Send, Video } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -7,7 +9,11 @@ import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/features/auth/hooks/useAuth'
-import { postGraphqlService } from '@/features/post/services/post.graphql.service'
+import type { PaginatedPosts } from '@/features/post/services/post.graphql.service'
+import {
+  FEED_POSTS_QUERY_KEY,
+  postGraphqlService,
+} from '@/features/post/services/post.graphql.service'
 import { useAppDispatch } from '@/store'
 import { addToast } from '@/store/ui.slice'
 
@@ -19,6 +25,7 @@ type CreatePostFormValues = {
 
 export default function CreatePost() {
   const dispatch = useAppDispatch()
+  const queryClient = useQueryClient()
 
   //Get Current User
   const { user } = useAuth()
@@ -133,6 +140,39 @@ export default function CreatePost() {
         imageUrl,
         visibility,
       })
+
+      queryClient.setQueryData<InfiniteData<PaginatedPosts>>(
+        FEED_POSTS_QUERY_KEY,
+        previous => {
+          if (!previous || !previous.pages.length) return previous
+
+          const firstPage = previous.pages[0]
+          const optimisticPost = {
+            ...createdPost,
+            author: {
+              id: user?.id || 'me',
+              name: user?.name || 'You',
+              avatar: user?.avatar || '/assets/images/profile.png',
+            },
+            comments: [],
+          }
+
+          return {
+            ...previous,
+            pages: [
+              {
+                ...firstPage,
+                posts: [optimisticPost, ...firstPage.posts],
+                meta: {
+                  ...firstPage.meta,
+                  total: firstPage.meta.total + 1,
+                },
+              },
+              ...previous.pages.slice(1),
+            ],
+          }
+        }
+      )
 
       resetField('image')
       resetField('caption')
