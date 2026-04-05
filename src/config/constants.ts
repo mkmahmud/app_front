@@ -5,6 +5,9 @@ export const APP_CONFIG = {
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
   api: {
     baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1/v1',
+    graphqlUrl:
+      process.env.NEXT_PUBLIC_GRAPHQL_URL ||
+      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/graphql`,
     timeout: 30_000, // 30 seconds
     retries: 3,
     retryDelay: 1000,
@@ -62,18 +65,18 @@ export type Permission = (typeof PERMISSIONS)[keyof typeof PERMISSIONS]
 export const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
   superadmin: Object.values(PERMISSIONS) as Permission[],
   admin: [
-    'user:read', 'user:create', 'user:update',
-    'dashboard:view', 'analytics:view',
-    'settings:view', 'settings:update',
-    'billing:view', 'billing:update',
-  ],
-  user: [
+    'user:read',
+    'user:create',
+    'user:update',
     'dashboard:view',
+    'analytics:view',
     'settings:view',
+    'settings:update',
+    'billing:view',
+    'billing:update',
   ],
-  viewer: [
-    'dashboard:view',
-  ],
+  user: ['dashboard:view', 'settings:view'],
+  viewer: ['dashboard:view'],
 }
 
 // Feature flags

@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 import { AUTH_TOKEN_KEY } from '@/config/constants'
 
 // Routes that require authentication
-const PROTECTED_ROUTES = ['/dashboard', '/settings', '/users', '/profile', '/feed']
+const PROTECTED_ROUTES = ['/', '/dashboard', '/settings', '/users', '/profile', '/feed']
 
 // Routes that should redirect to dashboard if already authenticated
 const AUTH_ROUTES = ['/auth/login', '/auth/register', '/auth/forgot-password']
@@ -55,7 +55,9 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = getTokenFromRequest(request)
 
-  const isProtectedRoute = PROTECTED_ROUTES.some(route => pathname.startsWith(route))
+  const isProtectedRoute = PROTECTED_ROUTES.some(route =>
+    route === '/' ? pathname === '/' : pathname.startsWith(route)
+  )
   const isAuthRoute = AUTH_ROUTES.some(route => pathname.startsWith(route))
 
   // Validate token

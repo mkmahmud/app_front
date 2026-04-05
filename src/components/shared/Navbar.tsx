@@ -12,12 +12,30 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+import { useAuth } from '@/features/auth/hooks/useAuth'
 
 import { Input } from '../ui/input'
 
 export default function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false)
+  const { user, initAuth, logout } = useAuth()
+
+  useEffect(() => {
+    // Ensure navbar has current user data on hard refresh/navigation.
+    if (!user) {
+      void initAuth()
+    }
+  }, [initAuth, user])
+
+  const displayName = user?.name || 'User'
+  const avatarSrc = user?.avatar || '/assets/images/profile.png'
+
+  const handleLogout = async () => {
+    setProfileOpen(false)
+    await logout()
+  }
 
   return (
     <nav
@@ -101,14 +119,14 @@ export default function Navbar() {
                   <Image
                     height={24}
                     width={24}
-                    src="/assets/images/profile.png"
+                    src={avatarSrc}
                     alt="Profile"
                     className="h-[24px] w-[24px] rounded-full object-cover"
                   />
                 </div>
                 <div className="flex items-center">
                   <p className="text-[16px] font-normal leading-[24px] text-[#212121]">
-                    Dylan Field
+                    {displayName}
                   </p>
                   <span
                     className="ml-[8px] mt-[-3px] transition-transform duration-200"
@@ -144,14 +162,17 @@ export default function Navbar() {
                   <Image
                     height={54}
                     width={54}
-                    src="/assets/images/profile.png"
+                    src={avatarSrc}
                     alt="User Profile"
                     className="mr-[12px] h-[54px] w-[54px] rounded-full"
                   />
                   <div>
                     <h4 className="mb-0 text-[16px] font-bold text-[#212121]">
-                      Dylan Field
+                      {displayName}
                     </h4>
+                    {user?.email && (
+                      <p className="mb-[4px] text-[12px] text-[#666666]">{user.email}</p>
+                    )}
                     <Link
                       href="/profile"
                       className="text-[14px] text-[#377DFF] hover:underline"
@@ -193,7 +214,11 @@ export default function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <button className="group flex w-full items-center text-[16px] font-medium text-[#666666] transition-colors hover:text-red-500">
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="group flex w-full items-center text-[16px] font-medium text-[#666666] transition-colors hover:text-red-500"
+                    >
                       <div className="mr-3 rounded-full bg-[#F5F5F5] p-2 text-gray-500 transition-colors group-hover:bg-red-50 group-hover:text-red-500">
                         <LogOut size={18} />
                       </div>

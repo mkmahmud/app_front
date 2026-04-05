@@ -1,6 +1,6 @@
 'use client'
 
-import CreatePost from '@/components/feed/createPost'
+import CreatePost from '@/features/post/components/createPost'
 import PostCard from '@/features/post/postCard'
 
 const DEMO_POSTS: any[] = [

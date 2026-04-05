@@ -30,7 +30,7 @@ export function LoginForm() {
   const { login } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || ROUTES.DASHBOARD
+  const callbackUrl = searchParams.get('callbackUrl') || ROUTES.HOME
 
   const {
     register,
