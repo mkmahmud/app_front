@@ -1,8 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+
 import { AUTH_TOKEN_KEY } from '@/config/constants'
 
 // Routes that require authentication
-const PROTECTED_ROUTES = ['/dashboard', '/settings', '/users', '/profile']
+const PROTECTED_ROUTES = ['/dashboard', '/settings', '/users', '/profile', '/feed']
 
 // Routes that should redirect to dashboard if already authenticated
 const AUTH_ROUTES = ['/auth/login', '/auth/register', '/auth/forgot-password']
@@ -29,17 +31,17 @@ function getTokenFromRequest(request: NextRequest): string | null {
 
 function decodeTokenPayload(token: string): Record<string, unknown> | null {
   try {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const base64Url = token.split('.')[1]
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
     const jsonPayload = decodeURIComponent(
       atob(base64)
         .split('')
-        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
         .join('')
-    );
-    return JSON.parse(jsonPayload);
+    )
+    return JSON.parse(jsonPayload)
   } catch {
-    return null;
+    return null
   }
 }
 
@@ -53,9 +55,7 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = getTokenFromRequest(request)
 
-  const isProtectedRoute = PROTECTED_ROUTES.some(route =>
-    pathname.startsWith(route)
-  )
+  const isProtectedRoute = PROTECTED_ROUTES.some(route => pathname.startsWith(route))
   const isAuthRoute = AUTH_ROUTES.some(route => pathname.startsWith(route))
 
   // Validate token

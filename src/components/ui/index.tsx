@@ -1,27 +1,29 @@
-import * as React from 'react'
 import * as LabelPrimitive from '@radix-ui/react-label'
 import { cva, type VariantProps } from 'class-variance-authority'
+import * as React from 'react'
+
 import { cn } from '@/lib/utils'
 
 // ─── Input ────────────────────────────────────────────────────────────────────
-const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
-  ({ className, type, ...props }, ref) => (
-    <input
-      type={type}
-      className={cn(
-        'flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm',
-        'placeholder:text-muted-foreground',
-        'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
-        'disabled:cursor-not-allowed disabled:opacity-50',
-        'transition-colors duration-150',
-        'aria-invalid:border-destructive aria-invalid:ring-destructive',
-        className
-      )}
-      ref={ref}
-      {...props}
-    />
-  )
-)
+const Input = React.forwardRef<
+  HTMLInputElement,
+  React.InputHTMLAttributes<HTMLInputElement>
+>(({ className, type, ...props }, ref) => (
+  <input
+    type={type}
+    className={cn(
+      'flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm',
+      'placeholder:text-muted-foreground',
+      'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
+      'disabled:cursor-not-allowed disabled:opacity-50',
+      'transition-colors duration-150',
+      'aria-invalid:border-destructive aria-invalid:ring-destructive',
+      className
+    )}
+    ref={ref}
+    {...props}
+  />
+))
 Input.displayName = 'Input'
 
 // ─── Textarea ─────────────────────────────────────────────────────────────────
@@ -54,11 +56,7 @@ const Label = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
     VariantProps<typeof labelVariants>
 >(({ className, ...props }, ref) => (
-  <LabelPrimitive.Root
-    ref={ref}
-    className={cn(labelVariants(), className)}
-    {...props}
-  />
+  <LabelPrimitive.Root ref={ref} className={cn(labelVariants(), className)} {...props} />
 ))
 Label.displayName = LabelPrimitive.Root.displayName
 
@@ -84,8 +82,7 @@ const alertVariants = cva(
 )
 
 interface AlertProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof alertVariants> {}
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof alertVariants> {}
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   ({ className, variant, children, ...props }, ref) => (
@@ -105,7 +102,7 @@ Alert.displayName = 'Alert'
 function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('shimmer rounded-md bg-muted', className)}
+      className={cn('shimmer bg-muted rounded-md', className)}
       aria-hidden="true"
       {...props}
     />
@@ -118,11 +115,16 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: 'border-transparent bg-primary text-primary-foreground hover:bg-primary/80',
-        secondary: 'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        destructive: 'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80',
-        success: 'border-transparent bg-success text-success-foreground hover:bg-success/80',
-        warning: 'border-transparent bg-warning text-warning-foreground hover:bg-warning/80',
+        default:
+          'border-transparent bg-primary text-primary-foreground hover:bg-primary/80',
+        secondary:
+          'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        destructive:
+          'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80',
+        success:
+          'border-transparent bg-success text-success-foreground hover:bg-success/80',
+        warning:
+          'border-transparent bg-warning text-warning-foreground hover:bg-warning/80',
         outline: 'text-foreground',
       },
     },
@@ -131,13 +133,10 @@ const badgeVariants = cva(
 )
 
 interface BadgeProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {}
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {}
 
 function Badge({ className, variant, ...props }: BadgeProps) {
-  return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
-  )
+  return <div className={cn(badgeVariants({ variant }), className)} {...props} />
 }
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
@@ -145,7 +144,10 @@ const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('rounded-xl border border-border bg-card text-card-foreground shadow-sm', className)}
+      className={cn(
+        'bg-card text-card-foreground rounded-xl border border-border shadow-sm',
+        className
+      )}
       {...props}
     />
   )
@@ -154,30 +156,45 @@ Card.displayName = 'Card'
 
 const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('flex flex-col space-y-1.5 p-6', className)} {...props} />
+    <div
+      ref={ref}
+      className={cn('flex flex-col space-y-1.5 p-6', className)}
+      {...props}
+    />
   )
 )
 CardHeader.displayName = 'CardHeader'
-
-const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
-  ({ className, ...props }, ref) => (
-    <h3 ref={ref} className={cn('font-semibold leading-none tracking-tight', className)} {...props} />
-  )
-)
+// ─── CardTitle ────────────────────────────────────────────────────────────────
+const CardTitle = React.forwardRef<
+  HTMLHeadingElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, children, ...props }, ref) => (
+  <h3
+    ref={ref}
+    className={cn('font-semibold leading-none tracking-tight', className)}
+    {...props}
+  >
+    {children}
+  </h3>
+))
 CardTitle.displayName = 'CardTitle'
 
-const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
-  ({ className, ...props }, ref) => (
-    <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
-  )
-)
+// ─── CardDescription ──────────────────────────────────────────────────────────
+const CardDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, children, ...props }, ref) => (
+  <p ref={ref} className={cn('text-muted-foreground text-sm', className)} {...props}>
+    {children}
+  </p>
+))
 CardDescription.displayName = 'CardDescription'
-
-const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
-  )
-)
+const CardContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
+))
 CardContent.displayName = 'CardContent'
 
 const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
@@ -188,6 +205,16 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 CardFooter.displayName = 'CardFooter'
 
 export {
-  Input, Textarea, Label, Alert, Skeleton, Badge,
-  Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter,
+  Input,
+  Textarea,
+  Label,
+  Alert,
+  Skeleton,
+  Badge,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
 }

@@ -13,6 +13,10 @@ const nextConfig = {
       { protocol: 'https', hostname: '**.githubusercontent.com' },
       { protocol: 'https', hostname: '**.cloudinary.com' },
       { protocol: 'https', hostname: '**.unsplash.com' },
+      { protocol: 'https', hostname: 'cdn-icons-png.flaticon.com' },
+      { protocol: 'https', hostname: 'utfs.io' },
+      { protocol: 'https', hostname: 'media.sproutsocial.com' },
+      { protocol: 'https', hostname: 'icons.veryicon.com' },
     ],
   },
   experimental: {
